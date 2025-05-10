@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CPU Scheduling Simulator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+</head>
+<body>
+    <h1>CPU Scheduling Algorithm Simulator</h1>
+    <p>Select an algorithm to begin the simulation</p>
+
+    <form method="POST" action="/simulate">
+        <select name="algorithm" required>
+            <option value="" disabled selected>Select Algorithm</option>
+            <option value="fcfs">First-Come First-Serve (FCFS)</option>
+            <option value="sjf">Shortest Job First (SJF)</option>
+            <option value="priority">Priority Scheduling</option>
+            <option value="rr">Round Robin (RR)</option>
+            <option value="srtf">Shortest Remaining Time First (SRTF)</option>
+        </select>
+        <button type="submit">Start Simulation</button>
+    </form>
+</body>
+</html>
