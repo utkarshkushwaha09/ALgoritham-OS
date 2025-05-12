@@ -1,7 +1,6 @@
 const form = document.getElementById("process-form");
 const inputArea = document.getElementById("input-area");
 var i = 0;
-console.log("form");
 
 function addRow() {
     i++;
@@ -43,21 +42,46 @@ form.onsubmit = async function(e) {
     }
     
     const processes = [];
+     let hasError = false;
     inputArea.querySelectorAll("div").forEach((div, index) => {
         const [at, bt] = div.querySelectorAll("input");
+        if (bt.value === "0") {
+            alert("Burst time cannot be zero");
+            bt.focus();
+            bt.style.border = "3px solid red";
+            hasError = true;
+             
+            bt.addEventListener("input", function handler() {
+                if (bt.value !== "0") {
+                    bt.style.border = "";
+                    bt.removeEventListener("input", handler); // Remove after fixing
+                }
+            });
+
+            return;
+        }
         processes.push({
             pid: index + 1,
             at: at.value,
             bt: bt.value
         });
     });
+    
+    if (hasError) return;
 
-    const res = await fetch("/simulate/fcfs", {
+    console.log("processes", processes);
+    const res = await fetch("/simulate/sjf_p", {
     method: "POST",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ processes })
     });
     
+    console.log("res");
+    if (!res.ok) {
+        alert("Error: " + res.statusText);
+        return;
+    }
+
     const data = await res.json();
     animateChart(data.scheduled);
     renderTable(data.table, data.average_waiting_time, data.average_turnaround_time);
@@ -79,12 +103,20 @@ function animateChart(scheduled) {
         setTimeout(() => {
             const block = document.createElement("div");
             block.className = "process-block";
-            block.style.width = (p.duration * 40) + "px";
-            block.innerText = p.pid;
+            //block.style.width = (40) + "px";
+            block.style.width ='3px';
+            if(p=="idle"){
+                block.style.backgroundColor = "#2ecc71";
+                block.innerText = "idle";
+            }
+            else{
+                block.style.backgroundColor = "#3498db";
+                block.innerText = `p${p}`;
+            }
             //block.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-            block.style.backgroundColor = "#3498db";
-            block.innerHTML = `<p>P ${p.pid}</p>
-                       <p>(${p.starting_time} - ${p.completion_time})</p>`;
+           // block.style.backgroundColor = "#3498db";
+            // block.innerHTML = `<p>P ${p.pid}</p>
+            //            <p>(${p.starting_time} - ${p.completion_time})</p>`;
             inner.appendChild(block);
                     
         }, index * 1000);

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FCFS Scheduling Simulator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/sjf_p.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">Shortest Remaining time , First-Served Scheduling</h1>
+
+    <div class="card">
+      <h2>Process Input</h2>
+      <form id="process-form">
+        <div id="input-area"></div>
+
+        <div class="button-group">
+          <button type="button" onclick="addRow()">Add Process</button>
+          <button type="button" onclick="removeRow()">Remove Last</button>
+          <button type="button" onclick="clearRows()">Clear All</button>
+          <button type="submit">Run Simulation</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="card" id="gantt-chart">
+      <h2>Gantt Chart</h2>
+      <div class="gantt-inner" id="gantt-container"></div>
+    </div>
+
+    <div class="card" id="process-table">
+      <h2>Process Table</h2>
+      <div id="table-container"></div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/sjf_p.js') }}"></script>
+</body>
+</html>
