@@ -12,7 +12,7 @@ class Process:
         self.waiting_time = 0
         self.response_time = 0
 
-def sjf_preemptive(processes):
+def srtf(processes):
     n = len(processes)
     current_time = 0
     completed = 0
