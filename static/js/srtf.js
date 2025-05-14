@@ -70,7 +70,7 @@ form.onsubmit = async function(e) {
     if (hasError) return;
 
     console.log("processes", processes);
-    const res = await fetch("/simulate/sjf_p", {
+    const res = await fetch("/simulate/srtf", {
     method: "POST",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ processes })
